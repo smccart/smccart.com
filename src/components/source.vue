@@ -20,6 +20,10 @@
 <script>
 export default {
     props: {
+        height: {
+            type: Number,
+            default: 300
+        },
         html: {
             type: String,
             default: 'asdfasd asdfasfas fasdf asdasfd f'
@@ -36,7 +40,6 @@ export default {
 
     ready () {
 
-        let $drag = this.$els.drag
 
     },
 
@@ -65,7 +68,6 @@ export default {
 
     data() {
         return {
-            height: 300,
             startY: null,
             startHeight: null
         }

@@ -24,7 +24,7 @@ export default {
         background: rgba(0,0,0,.3);
         position: fixed;
         bottom: 0; right: 0; left: 0;
-        height: 40px;
+        height: 50px;
         box-sizing: border-box;
         padding-left: 20px;
 

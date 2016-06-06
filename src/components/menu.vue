@@ -1,7 +1,7 @@
 <template>
     <div class="menu">
         <ul>
-            <li v-for="item in data"><a v-link="{ name: 'article', params: { id: item.alias } }">{{item.title}}</a></li>
+            <li v-for="item in data"><a v-link="{ name: 'snippet', params: { id: item.alias } }">{{item.title}}</a></li>
         </ul>
     </div>
 </template>

@@ -30,17 +30,9 @@ export default {
 
 <style lang="scss">
 
-    @import url(https://fonts.googleapis.com/css?family=Raleway);
 
-    body {
-        font-family: 'Raleway', sans-serif;
-        background: #2e425f;
-        color: #FFF;
-        letter-spacing: 1px;
-        padding: 0;
-        margin: 0;
-        padding-top: 45px;
-    }
+
+    
 
     .header {
         background: rgba(0,0,0,.3);

@@ -1,7 +1,7 @@
 
 // Views
 import Home from './components/home.vue'
-import Article from './components/article.vue'
+import Snippet from './components/snippet.vue'
 import Login from './components/login.vue'
 
 
@@ -12,8 +12,8 @@ export default {
     '/login': {
       component: Login
     },
-    '/article/:id': {
-        name: 'article',
-        component: Article
+    '/snippet/:id': {
+        name: 'snippet',
+        component: Snippet
     }
 }
