@@ -5,15 +5,18 @@
             <div class="snippet__source__drag" @mousedown="startDrag"></div>
             <div class="grid">
                 <div class="col s4 m4 l4">
-                    <div class="snippet__source__window html" v-text="html">
+                    <div class="snippet__source__window html">
+                        <pre><code v-el:html v-text="html"></code></pre>
                     </div>
                 </div>
                 <div class="col s4 m4 l4">
-                    <div class="snippet__source__window style" v-text="style">
+                    <div class="snippet__source__window style">
+                        <pre><code v-el:style v-text="style"></code></pre>
                     </div>
                 </div>
                 <div class="col s4 m4 l4">
-                    <div class="snippet__source__window script" v-text="script">
+                    <div class="snippet__source__window script">
+                        <pre><code v-el:script v-text="script"></code></pre>
                     </div>
                 </div>
             </div>
@@ -21,6 +24,7 @@
     </div>
 </template>
 <script>
+import Highlight from 'highlight.js'
 export default {
     route: {
         data () {
@@ -51,8 +55,8 @@ export default {
         }
     },
     ready () {
-         this.iframeHeight = window.innerHeight - this.headerHeight - this.footerHeight - this.sourceHeight
-         this.loadSnippet()
+        this.iframeHeight = window.innerHeight - this.headerHeight - this.footerHeight - this.sourceHeight
+        this.loadSnippet()
     },
     methods: {
 
@@ -64,6 +68,7 @@ export default {
                 this.html = response.data.html
                 this.script = response.data.script
                 this.style = response.data.style
+                this.applyHighlight()
             })
         },
 
@@ -91,12 +96,19 @@ export default {
             document.removeEventListener('mouseup', this.stopDrag)
             let $body = document.getElementsByTagName('body')[0]
             $body.classList.remove('noselect')
+        },
+
+        applyHighlight () {
+            Highlight.highlightBlock(this.$els.html)
+            Highlight.highlightBlock(this.$els.style)
+            Highlight.highlightBlock(this.$els.script)
         }
     },
 }
 </script>
 
 <style lang="scss">
+    @import 'node_modules/highlight.js/styles/github.css';
     .snippet {
         position: relative;
         width: 100%;

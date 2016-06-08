@@ -21,6 +21,7 @@ export default {
     replace: false,
 
     ready () {
+        
         this.$http({
             url: 'api/snippets.php',
             method: 'GET'
