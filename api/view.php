@@ -4,7 +4,7 @@
 
     $alias = $_GET['alias'];
 
-    $query = $db->prepare("Select * from posts WHERE alias = '".$alias."'");
+    $query = $db->prepare("Select * from snippets WHERE alias = '".$alias."'");
     $query->execute();
     $row = $query->fetch();
 ?>

@@ -2,9 +2,10 @@
     <div class="app header">
         <h1>smccart.com <small>Playground and Portfolio for Sean McCart</small></h1>
         <div class="header__nav">
-            <span class="header__nav__theme">Theme</span>
-            <span class="header__nav__login" v-link="'/login'">Login</span>
-            <i @click="toggleMenu" class="header__nav__menu fa fa-bars"></i>
+            <span class="header__nav__item" v-for="item in nav" v-link="'/'+item.alias">{{item.label}}</span>
+            <div class="header__nav__menu">
+                <i @click="toggleMenu" class="fa fa-bars"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -16,6 +17,17 @@ export default {
         menu: {
             type: Boolean,
             required: true
+        }
+    },
+
+    data () {
+        return {
+            nav: [
+                {'label': 'Snippets', 'alias': 'snippets'},
+                {'label': 'Projects', 'alias': 'projects'},
+                {'label': 'Resources', 'alias': 'resources'},
+                {'label': 'Contact', 'alias': 'contact'},
+            ]
         }
     },
 
@@ -52,13 +64,21 @@ export default {
         }
         &__nav {
             float: right;
-            padding: 10px 10px 0 0;
+            padding: 10px 38px 0 0;
             span {
                 display: inline-block;
-                padding: 5px 15px 5px 15px;
-                border: 1px solid rgba(255,255,255,0.5);
-                margin-right: 10px;
+                padding: 7px 20px 7px 20px;
+                border: 1px solid rgba(255,255,255,0.05);
+                background: rgba(255,255,255,0.03);
+                margin-right: 5px;
                 font-size: .8rem;
+                border-radius: 3px;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                &:hover {
+                    border: 1px solid rgba(255,255,255,0.3);
+                    background: rgba(255,255,255,0.08);
+                }
             }
             &__login {
 
@@ -68,7 +88,10 @@ export default {
             }
             &__menu {
                 font-size: 24px;
+                color: rgba(255,255,255,0.7);
                 cursor: pointer;
+                position: absolute;
+                top: 10px; right: 10px;
             }
 
         }

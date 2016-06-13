@@ -24,9 +24,9 @@ export default {
         background: rgba(0,0,0,.3);
         position: fixed;
         bottom: 0; right: 0; left: 0;
-        height: 50px;
+        height: 40px;
+        padding: 10px 20px 0 20px;
         box-sizing: border-box;
-        padding-left: 20px;
 
         &__copyright {
             font-size: .8rem;

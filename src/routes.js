@@ -12,8 +12,11 @@ export default {
     '/login': {
       component: Login
     },
-    '/snippet/:id': {
-        name: 'snippet',
+    '/snippets': {
+        component: Snippet
+    },
+    '/snippets/:alias': {
+        name: 'snippets',
         component: Snippet
     }
 }

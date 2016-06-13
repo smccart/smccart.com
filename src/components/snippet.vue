@@ -4,111 +4,128 @@
         <div class="snippet__source" :style="{height: sourceHeight+'px'}" v-el:source>
             <div class="snippet__source__drag" @mousedown="startDrag"></div>
             <div class="grid">
-                <div class="col s4 m4 l4">
+                <div class="col s4 m4">
                     <div class="snippet__source__window html">
-                        <pre><code v-el:html v-text="html"></code></pre>
+                        <header>HTML</header>
+                        <pre><code class="html" v-el:html v-text="html"></code></pre>
                     </div>
                 </div>
-                <div class="col s4 m4 l4">
+                <div class="col s4 m4">
                     <div class="snippet__source__window style">
-                        <pre><code v-el:style v-text="style"></code></pre>
+                        <header>CSS</header>
+                        <pre><code class="css" v-el:style v-text="style"></code></pre>
                     </div>
                 </div>
-                <div class="col s4 m4 l4">
+                <div class="col s4 m4">
                     <div class="snippet__source__window script">
-                        <pre><code v-el:script v-text="script"></code></pre>
+                        <header>JS</header>
+                        <pre><code class="javascript" v-el:script v-text="script"></code></pre>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 </template>
+
+
 <script>
+import Scroll from 'perfect-scrollbar'
 import Highlight from 'highlight.js'
+
 export default {
     route: {
         data () {
-            this.id = this.$route.params.id
+            if(typeof this.$route.params.alias !== 'undefined') {
+                this.alias = this.$route.params.alias
+            }
             this.loadSnippet()
-        }
-    },
-    watch: {
-        id (val) {
-            this.$els.iframe.src = "api/view.php?alias="+val
-        },
-        sourceHeight (val) {
-            //this.iframeHeight = window.innerHeight - headerHeight - footerHeight - val
         }
     },
     data() {
         return {
-            id: null,
+            alias: 'default',
             iframeHeight: null,
             sourceHeight: 300,
             headerHeight: 50,
-            footerHeight: 50,
-            html: 'html',
-            style: 'style',
-            script: 'script',
+            footerHeight: 40,
+            html: null,
+            style: null,
+            script: null,
             startY: null,
             startHeight: null
         }
     },
     ready () {
         this.iframeHeight = window.innerHeight - this.headerHeight - this.footerHeight - this.sourceHeight
-        this.loadSnippet()
     },
     methods: {
 
         loadSnippet () {
+            console.log(this.alias)
+            this.$els.iframe.src = "api/view.php?alias="+this.alias
             this.$http({
-                url: 'api/snippets.php?id='+this.id,
+                url: 'api/snippets.php?id='+this.alias,
                 method: 'GET'
             }).then((response) => {
                 this.html = response.data.html
                 this.script = response.data.script
                 this.style = response.data.style
                 this.applyHighlight()
+                this.applyScroll()
             })
         },
 
         startDrag (e) {
-            console.log('startDrag')
             document.addEventListener('mousemove', this.onDrag)
             document.addEventListener('mouseup', this.stopDrag)
             this.startY = e.clientY
             this.startHeight = this.$els.source.offsetHeight
             let $body = document.getElementsByTagName('body')[0]
             $body.classList.add('noselect')
+            this.$els.iframe.style.pointerEvents = "none";
         },
 
         onDrag (e) {
-            console.log('onDrag')
             if(e.clientY > this.headerHeight && e.clientY < window.innerHeight + this.footerHeight) {
-                this.sourceHeight = ((this.startY + this.startHeight) - e.clientY + 15)
+                this.sourceHeight = ((this.startY + this.startHeight) - e.clientY)
                 this.iframeHeight = window.innerHeight - this.headerHeight - this.footerHeight - this.sourceHeight
             }
         },
 
         stopDrag () {
-            console.log('stop drag')
             document.removeEventListener('mousemove', this.onDrag)
             document.removeEventListener('mouseup', this.stopDrag)
             let $body = document.getElementsByTagName('body')[0]
             $body.classList.remove('noselect')
+            this.$els.iframe.style.pointerEvents = "auto";
         },
 
         applyHighlight () {
             Highlight.highlightBlock(this.$els.html)
             Highlight.highlightBlock(this.$els.style)
             Highlight.highlightBlock(this.$els.script)
+        },
+
+        applyScroll () {
+            let options = {
+                minScrollbarLength: 20
+            }
+           // Scroll.initialize(this.$els.source.querySelectorAll('pre'), options)
+           let pre_tags = this.$els.source.querySelectorAll('pre')
+           for(i = 0; i < pre_tags.length; i++) {
+                Scroll.initialize(pre_tags[i], options)
+           }
         }
     },
 }
 </script>
 
 <style lang="scss">
-    @import 'node_modules/highlight.js/styles/github.css';
+    @import '../sass/vars';
+    @import 'node_modules/perfect-scrollbar/src/css/main.scss';
+    @import 'node_modules/highlight.js/styles/tomorrow-night-bright.css';
+
     .snippet {
         position: relative;
         width: 100%;
@@ -124,22 +141,59 @@ export default {
             background: #FFF;
         }
         &__source {
-            background: rgba(0,0,0,.1);
-            height: 350px;
+            @include bg-dark(.1);
             position: fixed;
-            bottom: 50px;
-            left: 0; right: 0;
-            width: 100%;
+            bottom: 40px; left: 0; right: 0;
+            box-sizing: border-box;
+            min-height: 150px;
+            .grid {
+                height: calc(100% - 30px);
+                box-sizing: border-box;
+                .col {
+                    height: 100%;
+                    box-sizing: border-box;
+                    padding: 0 10px 0 0;
+                    &:first-child {
+                        padding-left: 10px;
+                    }
+                }
+            }
+            pre, code{
+                margin: 0;
+                height: 100%;
+                width: 100%;
+                font-size: .9rem;
+                box-sizing: border-box;
+                @include bg-dark(0);
+                white-space: wrap;
+                font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            }
+            pre {
+                height: calc(100% - 30px);
+            }
             &__drag {
-                background: rgba(0,0,0,.7);
-                height: 15px;
+                @include bg-dark(.4);
+                height: 10px;
                 margin-bottom: 10px;
+                cursor: row-resize;
             }
             &__window {
-                margin-right: 10px;
-                background: rgba(0,0,0,.5);
+                @include bg-dark(.4);
                 width: 100%;
-                min-height: 300px;
+                height: 100%;
+                border-radius: 3px;
+                header {
+                    @include text-light(.8);
+                    font-size: 1rem;
+                    font-weight: 300;
+                    height: 30px;
+                    box-sizing: border-box;
+                    padding: 6px 10px 0 10px;
+                    @include bg-dark(.25);
+                    border-bottom: 1px solid;
+                    @include border-dark(.3);
+                    border-radius: 3px;
+                }
             }
         }
 
