@@ -7,7 +7,7 @@
                 <div class="col s4 m4">
                     <div class="snippet__source__window html">
                         <header>HTML</header>
-                        <pre><code class="html" v-el:html v-text="html"></code></pre>
+                        <pre><code class="html" v-el:html>{{html}}</code></pre>
                     </div>
                 </div>
                 <div class="col s4 m4">
@@ -62,7 +62,6 @@ export default {
     methods: {
 
         loadSnippet () {
-            console.log(this.alias)
             this.$els.iframe.src = "api/view.php?alias="+this.alias
             this.$http({
                 url: 'api/snippets.php?id='+this.alias,
@@ -71,8 +70,12 @@ export default {
                 this.html = response.data.html
                 this.script = response.data.script
                 this.style = response.data.style
-                this.applyHighlight()
-                this.applyScroll()
+                setTimeout(() => {
+                    this.setWidths()
+                    this.applyHighlight()
+                    this.applyScroll()
+                }, 10)
+
             })
         },
 
@@ -107,13 +110,20 @@ export default {
             Highlight.highlightBlock(this.$els.script)
         },
 
+        setWidths () {
+            this.$els.html.style.width = this.$els.html.offsetWidth +'px'
+            this.$els.style.style.width = this.$els.style.offsetWidth +'px'
+            this.$els.script.style.width = this.$els.script.offsetWidth +'px'
+        },
+
         applyScroll () {
             let options = {
-                minScrollbarLength: 20
+                minScrollbarLength: 20,
+                theme: 'smccart'
             }
-           // Scroll.initialize(this.$els.source.querySelectorAll('pre'), options)
            let pre_tags = this.$els.source.querySelectorAll('pre')
            for(i = 0; i < pre_tags.length; i++) {
+                Scroll.destroy(pre_tags[i])
                 Scroll.initialize(pre_tags[i], options)
            }
         }
@@ -158,18 +168,30 @@ export default {
                     }
                 }
             }
-            pre, code{
+            // .ps-theme-smccart {
+            //     @include ps-container(map-merge($ps-theme-default, (
+            //         border-radius: 3px,
+            //         rail-default-opacity: 1,
+            //         rail-container-hover-opacity: 1,
+            //         rail-hover-opacity: 1,
+            //         bar-bg: #000,
+            //         bar-container-hover-bg: #aaa,
+            //         bar-hover-bg: #999,
+            //         rail-hover-bg: #eee
+            //     )));
+            // }
+            code{
                 margin: 0;
-                height: 100%;
-                width: 100%;
-                font-size: .9rem;
-                box-sizing: border-box;
+                font-size: .8rem;
                 @include bg-dark(0);
-                white-space: wrap;
                 font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+                width: 100%;
             }
             pre {
                 height: calc(100% - 30px);
+                position: relative;
+                overflow: hidden;
+                margin: 0;
             }
             &__drag {
                 @include bg-dark(.4);
