@@ -23,7 +23,7 @@ export default {
     ready () {
         
         this.$http({
-            url: 'api/snippets.php',
+            url: 'server/snippets.php',
             method: 'GET'
         }).then((response) => {
             this.snippets = response.data
