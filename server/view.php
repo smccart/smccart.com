@@ -12,7 +12,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>smccart</title>
+    <title>smccart.com / snippets / <?php echo $row['title'];?></title>
   </head>
   <body>
     <style>

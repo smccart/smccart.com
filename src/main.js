@@ -12,6 +12,7 @@ Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
 // Developer Mode
 Vue.config.devtools = true
 
+
 //Router
 Vue.use( Router )
 var router = new Router( )

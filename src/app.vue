@@ -1,11 +1,9 @@
 <template>
     <div id="app">
-        <app-header :menu.sync="menuOpen"></app-header>
-
-        <app-menu :view.sync="view" :data="snippets" v-if="menuOpen" transition="menu"></app-menu>
+        <app-header></app-header>
 
         <main>
-            <router-view></router-view>
+            <router-view transition="app"></router-view>
         </main>
 
         <app-footer></app-footer>
@@ -13,9 +11,8 @@
 </template>
 
 <script>
-import AppHeader from './components/app-header.vue'
-import AppFooter from './components/app-footer.vue'
-import AppMenu from './components/menu.vue'
+import AppHeader from './components/global/header.vue'
+import AppFooter from './components/global/footer.vue'
 
 export default {
     replace: false,
@@ -23,7 +20,7 @@ export default {
     ready () {
         
         this.$http({
-            url: 'server/snippets.php',
+            url: 'server/snippets.php?request=list',
             method: 'GET'
         }).then((response) => {
             this.snippets = response.data
@@ -35,14 +32,11 @@ export default {
 
     components: {
         AppHeader,
-        AppFooter,
-        AppMenu
+        AppFooter
     },
 
     data () {
         return {
-            articles: null,
-            menuOpen: false,
             view: 'home'
         }
     }
@@ -50,11 +44,26 @@ export default {
 </script>
 
 <style lang="scss">
+    
+    @import url(https://fonts.googleapis.com/icon?family=Material+Icons);
     @import url(https://fonts.googleapis.com/css?family=Raleway);
+
+    .app-transition {
+        transition: all 0.4s ease;
+        opacity: 1;
+    }
+    .app-enter, .app-leave {
+        opacity: 0;
+    }
 
     body {
         font-family: 'Raleway', sans-serif;
-        background: #2e425f;
+        background-image: url("http://www.planwallpaper.com/static/images/kartandtinki1_photo-wallpapers_02.jpg");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-color: #22252E;
+        background-size: cover;
         color: #FFF;
         letter-spacing: 1px;
         padding: 0;
@@ -62,22 +71,22 @@ export default {
         padding-top: 50px;
     }
 
-.menu-transition {
-    transition: all 0.3s ease;
-    transform: translateX(0px);
-}
-.menu-enter, .menu-leave {
-    transform: translateX(280px);
-}
+    .menu-transition {
+        transition: all 0.3s ease;
+        transform: translateX(0px);
+    }
+    .menu-enter, .menu-leave {
+        transform: translateX(280px);
+    }
 
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none;   /* Chrome/Safari/Opera */
-  -khtml-user-select: none;    /* Konqueror */
-  -moz-user-select: none;      /* Firefox */
-  -ms-user-select: none;       /* Internet Explorer/Edge */
-  user-select: none;           /* Non-prefixed version, currently
-                                  not supported by any browser */
-}
+    .noselect {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none;   /* Chrome/Safari/Opera */
+      -khtml-user-select: none;    /* Konqueror */
+      -moz-user-select: none;      /* Firefox */
+      -ms-user-select: none;       /* Internet Explorer/Edge */
+      user-select: none;           /* Non-prefixed version, currently
+                                      not supported by any browser */
+    }
 
 </style>

@@ -1,7 +1,7 @@
 
 // Views
 import Home from './components/home.vue'
-import Snippet from './components/snippet.vue'
+import Snippets from './components/snippets/index.vue'
 import Login from './components/login.vue'
 
 
@@ -13,10 +13,10 @@ export default {
       component: Login
     },
     '/snippets': {
-        component: Snippet
+        component: Snippets
     },
     '/snippets/:alias': {
         name: 'snippets',
-        component: Snippet
+        component: Snippets
     }
 }

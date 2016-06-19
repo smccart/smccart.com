@@ -2,6 +2,14 @@
     background: rgba(0,0,0,$opacity);
 }
 
+@mixin bg-dark-grad($start, $end) {
+    background: linear-gradient(to bottom, rgba(0,0,0,$start) 0%,rgba(0,0,0,$end) 100%);
+}
+
+@mixin bg-light-grad($start, $end) {
+    background: linear-gradient(to bottom, rgba(255,255,255,$start) 0%,rgba(255,255,255,$end) 100%);
+}
+
 @mixin text-dark($opacity) {
     color: rgba(0,0,0,$opacity);
 }

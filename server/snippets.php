@@ -4,17 +4,17 @@
 
     require('global.php');
 
-    $action = isset($_GET['action']) ? $_GET['action'] : 'select';
-    $id = isset($_GET['id']) ? $_GET['id'] : null;
+    $request = isset($_GET['request']) ? $_GET['request'] : 'select';
+    $alias = isset($_GET['alias']) ? $_GET['alias'] : null;
 
-    if($type == 'get') {
+    if($request == 'get') {
 
-        $query = $db->prepare("Select * from snippets WHERE alias = '".$_GET['id']."'");
+        $query = $db->prepare("Select * from snippets WHERE alias = '".$_GET['alias']."'");
         $query->execute();
         $row = $query->fetch();
         echo json_encode($row);
 
-    } elseif($type == 'list') {
+    } elseif($request == 'list') {
 
         $result = $db->query('Select * from snippets');
         $rows = array();
@@ -23,15 +23,15 @@
         }
         echo json_encode($rows);
 
-    } elseif($type == 'update') {
+    } elseif($request == 'update') {
 
-        $affected = $db->exec("UPDATE snippets SET html = '".$_POST['html']."' WHERE  = '".$_GET['id']."'");
-        $json = "success: $affected";
+        $affected = $db->exec("UPDATE snippets SET html = ".$db->quote($_POST['html']).", script = ".$db->quote($_POST['script']).", style = ".$db->quote($_POST['style'])." WHERE alias = '".$_GET['alias']."'");
+        $json = "success: ".$affected;
         echo json_encode($json);
 
-    } elseif($type == 'delete') {
+    } elseif($request == 'delete') {
 
-    } elseif($type == 'insert') {
+    } elseif($request == 'insert') {
 
     }
 
