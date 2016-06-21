@@ -2,8 +2,8 @@
     <div class="snippet">
         <snippet-iframe :src="iframeSrc" :height="ySplit+'px'" :style="{right: windowWidth-xSplit + 'px'}" v-el:iframe></snippet-iframe>
         <snippet-menu :data="menuData" :height="ySplit+'px'" :width="windowWidth-xSplit+'px'"></snippet-menu>
-        <div class="snippet__ysplit" :style="{top: ySplit + 'px'}" @mousedown="dragY"></div>
-        <div class="snippet__xsplit" :style="{left: xSplit + 'px', height: ySplit+'px'}" @mousedown="dragX"></div>
+        <div class="snippet__ysplit" :class="{'active': drag}" :style="{top: ySplit + 'px'}" @mousedown="dragY"></div>
+        <div class="snippet__xsplit" :class="{'active': drag}" :style="{left: xSplit + 'px', height: ySplit+'px'}" @mousedown="dragX"></div>
         <snippet-source 
             @change="save" 
             :data="source" 
@@ -143,6 +143,7 @@ export default {
             let $body = document.getElementsByTagName('body')[0]
             $body.classList.remove('noselect')
             this.$els.iframe.style.pointerEvents = "auto";
+            this.drag = null
         },
 
         save (source) {
@@ -197,6 +198,10 @@ export default {
             @include bg-dark(.4);
             height: 3px;
             cursor: row-resize;
+            transition: background 0.3s ease;
+            &.active {
+                @include bg-dark(.6);
+            }
         }
         &__xsplit {
             position: absolute;
@@ -205,6 +210,10 @@ export default {
             @include bg-dark(.4);
             width: 3px;
             cursor: col-resize;
+            transition: background 0.3s ease;
+            &.active {
+                @include bg-dark(.6);
+            }
         }
         &__source {
             padding-top: 15px;

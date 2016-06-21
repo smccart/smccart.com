@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <app-header></app-header>
+        <app-header :view="view"></app-header>
 
         <main>
             <router-view transition="app"></router-view>
@@ -58,7 +58,7 @@ export default {
 
     body {
         font-family: 'Raleway', sans-serif;
-        background-image: url("http://www.planwallpaper.com/static/images/kartandtinki1_photo-wallpapers_02.jpg");
+        //background-image: url("http://www.planwallpaper.com/static/images/kartandtinki1_photo-wallpapers_02.jpg");
         background-position: center center;
         background-repeat: no-repeat;
         background-attachment: fixed;

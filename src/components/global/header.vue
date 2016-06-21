@@ -15,12 +15,17 @@
 
 <script>
 export default {
-
+    props: {
+        view: {
+            type: String,
+            default: 'snippets'
+        }
+    },
     data () {
         return {
             menu: false,
             nav: [
-                {'label': 'Snippets', 'alias': 'snippets'},
+                {'label': 'Snippets', 'alias': 'snippets', 'active': true},
                 {'label': 'Projects', 'alias': 'projects'},
                 {'label': 'About', 'alias': 'about'},
                 {'label': 'Contact', 'alias': 'contact'},
@@ -69,13 +74,16 @@ export default {
             padding: 0px 20px 0 0;
             &__item {
                 display: inline-block;
-                padding: 0 20px 0 20px;
-                margin-right: 5px;
-                line-height: 50px;
+                padding: 0 25px 0 25px;
+                margin-right: 3px;
+                line-height: 47px;
                 box-sizing: border-box;
                 font-size: .8rem;
                 transition: all 0.2s ease;
                 cursor: pointer;
+                &.v-link-active {
+                    @include bg-dark(.4);
+                }
                 &:hover {
                     @include bg-dark(.4);
                 }

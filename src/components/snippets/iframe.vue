@@ -24,10 +24,10 @@ export default {
     watch: {
         src () {
             console.log('src change')
-            this.loading = true
-            setTimeout(()=> {
-                this.loading = false;
-            }, 500)
+            // this.loading = true
+            // setTimeout(()=> {
+            //     this.loading = false;
+            // }, 500)
         }
     },
 
