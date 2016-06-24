@@ -10,7 +10,7 @@
     </div>
 </template>
 
-<script>
+<script type="text/babel">
 import AppHeader from './components/global/header.vue'
 import AppFooter from './components/global/footer.vue'
 

@@ -6,7 +6,7 @@ import Router from 'vue-router'
 
 //Vue Resource
 Vue.use(VueResource);
-Vue.http.options.root = './';
+Vue.http.options.root = '';
 Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
 
 // Developer Mode
