@@ -30,10 +30,10 @@
 </template>
 
 <script>
-//var sass = require('node-sass');
-import Jade from 'jade'
+    import JadeCompiler from '../compilers/jade'
+    import SassCompiler from '../compilers/sass'
 
-export default {
+    export default {
     props: {
         data: {
             type: Object,
@@ -115,6 +115,7 @@ export default {
         },
 
         updateEditors () {
+            console.log('here')
             this.editor.html.setValue(this.data.html.raw)
             this.editor.html.clearSelection()
             this.editor.script.setValue(this.data.script.raw)
@@ -124,23 +125,26 @@ export default {
         },
 
         onChange () {
+            const jade = new JadeCompiler()
+            const sass = new SassCompiler()
+
             let data = {
                 html: this.editor.html.getValue(),
                 script: this.editor.script.getValue(),
                 style: this.editor.style.getValue(),
             }
+
             this.$emit('change', data)
         },
 
         compile () {
-            let result = Jade.render('doctype html html(lang="en")')
-            console.log(result)
+             let result = Jade.render('h1 test')
         }
     }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" rel="stylesheet/scss">
     
     @import '../../sass/vars';
 

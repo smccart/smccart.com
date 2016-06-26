@@ -20,7 +20,9 @@
     ]
   },
   "dependencies": {
+    "font-awesome": "^4.6.3",
     "perfect-scrollbar": "^0.6.11",
+    "sass.js": "^0.9.10",
     "vue": "^1.0.0"
   },
   "devDependencies": {

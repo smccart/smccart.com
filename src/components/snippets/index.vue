@@ -14,7 +14,7 @@
 </template>
 
 
-<script>
+<script type="text/babel">
 import SnippetIframe from './iframe.vue'
 import SnippetMenu from './menu.vue'
 import SnippetSource from './source.vue'
@@ -88,11 +88,11 @@ export default {
                 this.source = {
                     html: {
                         raw: response.data.html,
-                        lang: response.data.html_lang
+                        lang: 'jade'
                     },
                     style: {
                         raw: response.data.style,
-                        lang: response.data.style_lang
+                        lang: 'sass'
                     },
                     script: {
                         raw: response.data.script,
@@ -147,7 +147,6 @@ export default {
         },
 
         save (source) {
-
             if(!this.read_only && !this.loading) {
                 clearInterval(this.save_interval)
                 this.save_interval = setInterval(() => {
